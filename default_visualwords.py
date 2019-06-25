@@ -3,7 +3,7 @@ from wordcloud import WordCloud
 import re
 
 
-with open('sample.txt', 'r') as f:
+with open('analyze_Text.txt', 'r') as f:
     text = f.read()
 
 seiki1 = re.compile("[a-zA-Z]+")
@@ -60,7 +60,7 @@ dictText = {'を':' を ',
             }
 
 eng = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"]
-gomi = ["キズナアイ", "した", "自分","ござ","りあえず"]
+gomi = ["キズナアイ", "した", "自分","ござ","りあえず", "東京都"]
 
 stop_text = list(dictText.keys()) + eng + gomi
 
@@ -68,7 +68,7 @@ for k, v in dictText.items():
     text = text.replace(k, v)
 
 wordcloud = WordCloud(background_color="white",
-                      font_path="/Library/Fonts/ヒラギノ角ゴシック W4.ttc",
+                      font_path="/system/Fonts/ヒラギノ角ゴシック W4.ttc",
                       stopwords = stop_text,
                       width=800, height=600).generate(text)
 
