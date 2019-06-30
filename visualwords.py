@@ -20,33 +20,42 @@ text = romaji.sub("", text)
 
 
 '''
-カタカナの前後にスペースを追加
+3文字以下の カタカナ を削除
 '''
-found_katakana_words = []
-katakana_pattern = re.compile('[ァ-ヴ][ァ-ヴ][ァ-ヴ][ァ-ヴ][ァ-ヴ]+')
+found_katanaka_words = []
+four_text_list = []
 pos = 0
+katanaka_pattern = re.compile('[ァ-ヴ]+')
 
 while True:
 
-    match1 = katakana_pattern.search( text, pos )
+    match1 = katanaka_pattern.search( text, pos )
 
     if match1 == None:
         break
-    
-    # 見つかったカタカナの後から開始
+
+    # 見つかったカタカナの後からループ開始
     pos = match1.end( 0 )
 
-    found_katakana_words.append(match1[0])
+    found_katanaka_words.append(match1[0])
 
-for x in found_katakana_words:
-    text = text.replace(x, " " + x + " ")
+for a in found_katanaka_words:
+
+    # 文字数指定
+    if len(a) >= 4:
+        four_text_list.append(a)
+
+text = katanaka_pattern.sub(" ", text)
+
+for b in four_text_list:
+    text += " " + b + " "
 
 
 '''
-5文字以下の ひらがな を削除
+4文字以下の ひらがな を削除
 '''
 found_hiragana_words = []
-three = []
+five_text_list = []
 pos = 0
 hiragana_pattern = re.compile('[ぁ-ん]+')
 
@@ -57,37 +66,68 @@ while True:
     if match2 == None:
         break
 
-    # 見つかったひらがなの後から開始させる
     pos = match2.end( 0 )
 
     found_hiragana_words.append(match2[0])
 
-for y in found_hiragana_words:
-    if len(y) >= 5:
-        three.append(y)
-        text = text.replace(y, " ")
+for c in found_hiragana_words:
+
+    # 文字数指定
+    if len(c) >= 5:
+        five_text_list.append(c)
 
 hiragana = re.compile('[ぁ-ん]+')
 text = hiragana.sub(" ", text)
 
-for t in three:
-    text += " " + t + " "
+for d in five_text_list:
+    text += " " + d + " "
 
 
 '''
-任意の削除したい文字
+2文字以下の 漢字 を削除
 '''
-stop = []
+found_kanzi_words = []
+three_text_list = []
+pos = 0
+kanzi_pattern = re.compile('[一-龥]+')
+
+while True:
+
+    match3 = kanzi_pattern.search( text, pos )
+
+    if match3 == None:
+        break
+
+    pos = match3.end( 0 )
+    found_kanzi_words.append(match3[0])
+
+for e in found_kanzi_words:
+
+    # 文字数指定
+    if len(e) >= 3:
+        three_text_list.append(e)
+
+text = kanzi_pattern.sub(" ", text)
+
+for f in three_text_list:
+    text += " " + f + " "
+
+
+'''
+任意の削除したい単語
+'''
+stop = ["ピヨピヨ", "ホゲホゲ"]
 
 
 '''
 WordCloudの設定
 '''
 wordcloud = WordCloud(mask = mask,
-                      font_path="/system/Library/Fonts/ヒラギノ角ゴシック W4.ttc",
                       stopwords = stop,
-                      # background_color="white",
+                      # フォントパスを指定 以下はMac用
+                      font_path="/system/Library/Fonts/ヒラギノ角ゴシック W4.ttc",
                       colormap = 'copper_r',
+                      # background_color="white",
                       # contour_width = 1,
                       # contour_color='gray',
                       width=800, height=600).generate(text)
