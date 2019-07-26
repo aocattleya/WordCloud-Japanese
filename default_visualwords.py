@@ -6,9 +6,9 @@ import re
 with open('analyze_Text.txt', 'r') as f:
     text = f.read()
 
-'''------------
-ローマ字を全て削除
-------------'''
+'''---------
+a-Zを全て削除
+---------'''
 romaji = re.compile("[a-zA-Z]+")
 text = romaji.sub("", text)
 
@@ -106,15 +106,15 @@ for kanzi in three_text_list:
     text += " " + kanzi + " "
 
 
-'''
+'''--------------
 任意の削除したい単語
-'''
+--------------'''
 stop = ["ピヨピヨ", "ホゲホゲ"]
 
 
-'''
+'''-----------
 WordCloudの設定
-'''
+-----------'''
 wordcloud = WordCloud(background_color="white",
                       font_path="/system/Fonts/ヒラギノ角ゴシック W4.ttc",
                       stopwords = stop,
