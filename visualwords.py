@@ -4,7 +4,6 @@ import re
 from PIL import Image
 import numpy as np
 
-
 mask = np.array(Image.open('cat.png'))
 mask = np.where(mask == 0, 0, 255)
 
@@ -12,16 +11,16 @@ with open('analyze_Text.txt', 'r') as f:
     text = f.read()
 
 
-'''
+'''------------
 ローマ字を全て削除
-'''
+------------'''
 romaji = re.compile("[a-zA-Z]+")
 text = romaji.sub("", text)
 
 
-'''
+'''--------------------
 3文字以下の カタカナ を削除
-'''
+--------------------'''
 found_katanaka_words = []
 four_text_list = []
 pos = 0
@@ -51,9 +50,9 @@ for b in four_text_list:
     text += " " + b + " "
 
 
-'''
+'''--------------------
 4文字以下の ひらがな を削除
-'''
+--------------------'''
 found_hiragana_words = []
 five_text_list = []
 pos = 0
@@ -83,9 +82,9 @@ for d in five_text_list:
     text += " " + d + " "
 
 
-'''
+'''----------------
 2文字以下の 漢字 を削除
-'''
+----------------'''
 found_kanzi_words = []
 three_text_list = []
 pos = 0
@@ -113,15 +112,14 @@ for f in three_text_list:
     text += " " + f + " "
 
 
-'''
+'''--------------
 任意の削除したい単語
-'''
+--------------'''
 stop = ["ピヨピヨ", "ホゲホゲ"]
 
-
-'''
+'''-----------
 WordCloudの設定
-'''
+-----------'''
 wordcloud = WordCloud(mask = mask,
                       stopwords = stop,
                       # フォントパスを指定 以下はMac用
