@@ -6,70 +6,118 @@ import re
 with open('analyze_Text.txt', 'r') as f:
     text = f.read()
 
+'''
+ローマ字を全て削除
+'''
 seiki1 = re.compile("[a-zA-Z]+")
 text = seiki1.sub("", text)
 
-found_katakana_words = []
-pattern = re.compile('[ァ-ヴ][ァ-ヴ][ァ-ヴ][ァ-ヴ][ァ-ヴ]+')
-
+'''
+3文字以下の カタカナ を削除
+'''
+found_katanaka_words = []
+four_text_list = []
 pos = 0
+katanaka_pattern = re.compile('[ァ-ヴ]+')
+
 while True:
-    a_match = pattern.search( text, pos )
 
-    if a_match == None:
+    match1 = katanaka_pattern.search( text, pos )
+
+    if match1 == None:
         break
-    
-    pos = a_match.end( 0 )
 
-    found_katakana_words.append(a_match[0])
+    # 見つかったカタカナの後からループ開始
+    pos = match1.end( 0 )
 
-for x in found_katakana_words:
-    text = text.replace(x, " " + x + " ")
+    found_katanaka_words.append(match1[0])
+
+for a in found_katanaka_words:
+
+    # 文字数指定
+    if len(a) >= 4:
+        four_text_list.append(a)
+
+text = katanaka_pattern.sub(" ", text)
+
+for b in four_text_list:
+    text += " " + b + " "
 
 
+'''
+4文字以下の ひらがな を削除
+'''
 found_hiragana_words = []
-pattern2 = re.compile('[ぁ-ん]')
-
+five_text_list = []
 pos = 0
+hiragana_pattern = re.compile('[ぁ-ん]+')
+
 while True:
-    a_match2 = pattern2.search( text, pos )
 
-    if a_match2 == None:
+    match2 = hiragana_pattern.search( text, pos )
+
+    if match2 == None:
         break
-    
-    pos = a_match2.end( 0 )
 
-    found_hiragana_words.append(a_match2[0])
+    pos = match2.end( 0 )
 
-for y in found_hiragana_words:
-    if len(y) <= 3:
-        text = text.replace(y, "")
+    found_hiragana_words.append(match2[0])
 
-    else:
-        text = text.replace(y, " " + y + " ")
+for c in found_hiragana_words:
+
+    # 文字数指定
+    if len(c) >= 5:
+        five_text_list.append(c)
+
+hiragana = re.compile('[ぁ-ん]+')
+text = hiragana.sub(" ", text)
+
+for d in five_text_list:
+    text += " " + d + " "
 
 
-dictText = {'を':' を ',
-            'に':' に ',
-            'って':' って ',
-            'も':' も ',
-            'は':' は ',
-            'と':' と ',
-            'から':' から ',
-            'で':' で ',
-            }
+'''
+2文字以下の 漢字 を削除
+'''
+found_kanzi_words = []
+three_text_list = []
+pos = 0
+kanzi_pattern = re.compile('[一-龥]+')
 
-eng = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"]
-gomi = ["キズナアイ", "した", "自分","ござ","りあえず", "東京都"]
+while True:
 
-stop_text = list(dictText.keys()) + eng + gomi
+    match3 = kanzi_pattern.search( text, pos )
 
-for k, v in dictText.items():
-    text = text.replace(k, v)
+    if match3 == None:
+        break
 
+    pos = match3.end( 0 )
+    found_kanzi_words.append(match3[0])
+
+for e in found_kanzi_words:
+
+    # 文字数指定
+    if len(e) >= 3:
+        three_text_list.append(e)
+
+text = kanzi_pattern.sub(" ", text)
+
+for f in three_text_list:
+    text += " " + f + " "
+
+
+'''
+任意の削除したい単語
+'''
+stop = ["ピヨピヨ", "ホゲホゲ"]
+
+
+'''
+WordCloudの設定
+'''
 wordcloud = WordCloud(background_color="white",
                       font_path="/system/Fonts/ヒラギノ角ゴシック W4.ttc",
-                      stopwords = stop_text,
+                      stopwords = stop,
                       width=800, height=600).generate(text)
 
 wordcloud.to_file("./wordcloud.png")
