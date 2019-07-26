@@ -6,16 +6,17 @@ import re
 with open('analyze_Text.txt', 'r') as f:
     text = f.read()
 
-'''
+'''------------
 ローマ字を全て削除
-'''
-seiki1 = re.compile("[a-zA-Z]+")
-text = seiki1.sub("", text)
+------------'''
+romaji = re.compile("[a-zA-Z]+")
+text = romaji.sub("", text)
 
-'''
+
+'''--------------------
 3文字以下の カタカナ を削除
-'''
-found_katanaka_words = []
+--------------------'''
+found_katanaka_list = []
 four_text_list = []
 pos = 0
 katanaka_pattern = re.compile('[ァ-ヴ]+')
@@ -30,24 +31,24 @@ while True:
     # 見つかったカタカナの後からループ開始
     pos = match1.end( 0 )
 
-    found_katanaka_words.append(match1[0])
+    found_katanaka_list.append(match1[0])
 
-for a in found_katanaka_words:
+for katakana_words in found_katanaka_list:
 
     # 文字数指定
-    if len(a) >= 4:
-        four_text_list.append(a)
+    if len(katakana_words) >= 4:
+        four_text_list.append(katakana_words)
 
 text = katanaka_pattern.sub(" ", text)
 
-for b in four_text_list:
-    text += " " + b + " "
+for katakana in four_text_list:
+    text += " " + katakana + " "
 
 
-'''
+'''--------------------
 4文字以下の ひらがな を削除
-'''
-found_hiragana_words = []
+--------------------'''
+found_hiragana_list = []
 five_text_list = []
 pos = 0
 hiragana_pattern = re.compile('[ぁ-ん]+')
@@ -61,25 +62,24 @@ while True:
 
     pos = match2.end( 0 )
 
-    found_hiragana_words.append(match2[0])
+    found_hiragana_list.append(match2[0])
 
-for c in found_hiragana_words:
+for hiragana_words in found_hiragana_list:
 
     # 文字数指定
-    if len(c) >= 5:
-        five_text_list.append(c)
+    if len(hiragana_words) >= 5:
+        five_text_list.append(hiragana_words)
 
-hiragana = re.compile('[ぁ-ん]+')
-text = hiragana.sub(" ", text)
+text = hiragana_pattern.sub(" ", text)
 
-for d in five_text_list:
-    text += " " + d + " "
+for hiragana in five_text_list:
+    text += " " + hiragana + " "
 
 
-'''
+'''----------------
 2文字以下の 漢字 を削除
-'''
-found_kanzi_words = []
+----------------'''
+found_kanzi_list = []
 three_text_list = []
 pos = 0
 kanzi_pattern = re.compile('[一-龥]+')
@@ -92,18 +92,18 @@ while True:
         break
 
     pos = match3.end( 0 )
-    found_kanzi_words.append(match3[0])
+    found_kanzi_list.append(match3[0])
 
-for e in found_kanzi_words:
+for kanzi_words in found_kanzi_list:
 
     # 文字数指定
-    if len(e) >= 3:
-        three_text_list.append(e)
+    if len(kanzi_words) >= 3:
+        three_text_list.append(kanzi_words)
 
 text = kanzi_pattern.sub(" ", text)
 
-for f in three_text_list:
-    text += " " + f + " "
+for kanzi in three_text_list:
+    text += " " + kanzi + " "
 
 
 '''
