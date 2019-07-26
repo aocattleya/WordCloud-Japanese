@@ -11,9 +11,9 @@ with open('analyze_Text.txt', 'r') as f:
     text = f.read()
 
 
-'''------------
-ローマ字を全て削除
-------------'''
+'''---------
+a-Zを全て削除
+---------'''
 romaji = re.compile("[a-zA-Z]+")
 text = romaji.sub("", text)
 
