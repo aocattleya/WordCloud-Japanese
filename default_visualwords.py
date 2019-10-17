@@ -3,7 +3,7 @@ from wordcloud import WordCloud
 import re
 
 
-with open('analyze_Text.txt', 'r') as f:
+with open('analyze_text.txt', 'r') as f:
     text = f.read()
 
 '''---------

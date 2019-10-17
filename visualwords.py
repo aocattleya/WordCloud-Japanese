@@ -7,7 +7,7 @@ import numpy as np
 mask = np.array(Image.open('cat.png'))
 mask = np.where(mask == 0, 0, 255)
 
-with open('analyze_Text.txt', 'r') as f:
+with open('analyze_text.txt', 'r') as f:
     text = f.read()
 
 
