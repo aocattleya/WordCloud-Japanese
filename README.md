@@ -4,8 +4,9 @@
 インストールの複雑な『**Mecab**』を使用せずに日本語に対応したWordCloudを作成します。
 
 ## :cloud: インストール
-・WordCloud  
-　　
+```
+pip install wordcloud
+```
 
 ## :book: 仕様
 **・見栄えの為に以下の単語を削除しています。**
@@ -21,10 +22,10 @@
 　  
 
 **・分析したい文章テキストを以下ファイルに上書きして実行します。**  
-　[analyze_Text.txt](https://github.com/aocattleya/WordCloud-Japanese_Sample/blob/master/analyze_Text.txt)  
+　[analyze_text.txt](https://github.com/aocattleya/WordCloud-Japanese_Sample/blob/master/analyze_text.txt)  
 　  
 
-**・# WordCloudの設定　とコメントを残している箇所でフォントのパスを設定する。**  
+**・`# WordCloudの設定` とコメントを残している箇所でフォントのパスを設定する。**  
 　デフォルトではMac用にしています。  
 　  
  
